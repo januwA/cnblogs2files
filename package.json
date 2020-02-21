@@ -1,0 +1,26 @@
+{
+  "name": "cnblogs2files",
+  "version": "1.0.0",
+  "description": "将备份的[cnblogs.xml]转为[.md]格式文件，便于保存到有道云笔记",
+  "main": "./bin/cnblogs2files",
+  "scripts": {},
+  "keywords": [
+    "Ajanuw",
+    "cnblogs2files"
+  ],
+  "author": "Ajanuw",
+  "license": "MIT",
+  "homepage": "https://github.com/januwA/cnblogs2files",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/januwA/cnblogs2files.git"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^3.16.0",
+    "fs-extra": "^8.1.0",
+    "yargs": "^15.1.0"
+  },
+  "bin": {
+    "cnblogs2files": "./bin/cnblogs2files"
+  }
+}

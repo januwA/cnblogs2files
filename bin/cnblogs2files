@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+const path = require("path");
+const yargs = require("yargs");
+const fs = require("fs-extra");
+const fxp = require("fast-xml-parser");
+
+const { argv } = yargs
+  .option("xml", {
+    type: "string",
+    description: "xml文件路径"
+  })
+  .alias("h", "help")
+  .alias("v", "version")
+  .help("help");
+
+const { _: ARGV } = argv;
+
+if (argv.xml) {
+  main();
+}
+async function main() {
+  if (fs.existsSync(argv.xml)) {
+    const xmlData = await fs.readFile(argv.xml, "utf8");
+    const objData = fxp.parse(xmlData);
+    const list = objData.rss.channel.item;
+    for (const e of list) {
+      const savePath = path.resolve(`${e.title}.md`);
+      if (!fs.existsSync(savePath)) {
+        try {
+          await fs.writeFile(savePath, e.description);
+        } catch (error) {
+          // 通常时文件名含有非法符号/ \ : * ? " < > |，导致保存失败
+          console.error(`保存文件失败: ${error.message}`);
+        }
+      } else {
+        console.log(`[${savePath}] 已存在!`);
+      }
+    }
+  } else {
+    console.log(`${argv.xml}配置文件不存在`);
+  }
+}
